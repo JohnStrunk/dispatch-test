@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-20.04
     permissions:
       actions: write  # required to trigger a workflow
+      contents: read
 
     steps:
       - name: Checkout source
