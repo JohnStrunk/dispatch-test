@@ -9,9 +9,6 @@ jobs:
   the-trigger-job:
     name: TheTriggerJob
     runs-on: ubuntu-20.04
-    permissions: write-all
-      # actions: write  # required to trigger a workflow
-      # contents: read
 
     steps:
       - name: Checkout source
@@ -30,5 +27,6 @@ jobs:
 
       - name: Trigger other workflows
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run --ref master main
+          GITHUB_TOKEN: ${{ secrets.PAT_WORKFLOW }}
+        run: |
+          gh workflow run --ref master main
