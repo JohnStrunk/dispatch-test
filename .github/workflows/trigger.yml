@@ -1,19 +1,16 @@
 ---
 # yamllint disable rule:line-length
 
-name: main
+name: trigger
 on:  # yamllint disable-line rule:truthy
-  push:
-    branches: ["master", "other-*"]
-    tags: ["*"]
-  pull_request:
-    branches: ["master", "other-*"]
   workflow_dispatch:
 
 jobs:
-  the-job:
-    name: TheJob
+  the-trigger-job:
+    name: TheTriggerJob
     runs-on: ubuntu-20.04
+    permissions:
+      actions: write  # required to trigger a workflow
 
     steps:
       - name: Checkout source
@@ -30,10 +27,7 @@ jobs:
           echo EVENT_NAME: ${{ github.event_name }}
           echo "File contents:"; cat thefile
 
-      - name: Conditionals
-        if: >
-          (github.event_name == 'push' || github.event_name == 'schedule') &&
-          (github.ref == 'refs/heads/master' ||
-           startsWith(github.ref, 'refs/heads/other-') ||
-           startsWith(github.ref, 'refs/tags/v'))
-        run: echo "And I ran... I ran so far away... I just ran... I ran all night and day..."
+      - name: Trigger other workflows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run --ref master main
