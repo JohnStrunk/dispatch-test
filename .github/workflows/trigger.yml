@@ -33,11 +33,12 @@ jobs:
           # regardless of permissions granted.
           GITHUB_TOKEN: ${{ secrets.PAT_WORKFLOW }}
         run: |
-          BRANCHES=(
+          REFERENCES=(
             "master"
             "b1"
+            "t1"
           )
-          for branch in "${BRANCHES[@]}"; do
-              echo "Triggering workflow for: $branch"
-              gh workflow run --ref $branch main
+          for reference in "${REFERENCES[@]}"; do
+              echo "Triggering workflow for: $reference"
+              gh workflow run --ref $reference main
           done
