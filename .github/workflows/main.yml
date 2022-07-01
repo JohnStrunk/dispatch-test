@@ -27,4 +27,14 @@ jobs:
           echo REF: ${{ github.ref }}
           echo REF_NAME: ${{ github.ref_name }}
           echo REF_TYPE: ${{ github.ref_type }}
+          echo EVENT_NAME: ${{ github.event_name }}
           echo "File contents:"; cat thefile
+
+      - name: Conditionals
+        if: >
+          (github.event_name == 'push' || github.event_name == 'schedule') &&
+          (github.ref == 'refs/heads/main' ||
+            startsWith(github.ref, 'refs/heads/ocm-') ||
+            startsWith(github.ref, 'refs/heads/other-') ||
+            startsWith(github.ref, 'refs/tags/v'))
+        run: echo "And I ran... I ran so far away... I just ran... I ran all night and day..."
