@@ -1,7 +1,7 @@
 ---
 # yamllint disable rule:line-length
 
-name: trigger file
+name: Periodic
 on:  # yamllint disable-line rule:truthy
   # Allow this workflow to be dispatched manually (for testing)
   workflow_dispatch:
@@ -9,27 +9,12 @@ on:  # yamllint disable-line rule:truthy
     - cron: "15 1 * * 1"  # 1:15 every Monday
 
 jobs:
-  the-trigger-job:
-    name: TheTriggerJob
+  trigger:
+    name: Trigger other jobs
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
-
-      - name: See where we are
-        run: |
-          date
-          git log --pretty="format:%h %G?%d %s" -1
-          echo ""
-          echo REF: ${{ github.ref }}
-          echo REF_NAME: ${{ github.ref_name }}
-          echo REF_TYPE: ${{ github.ref_type }}
-          echo EVENT_NAME: ${{ github.event_name }}
-          echo "File contents:"; cat thefile
-
-      - name: Trigger other workflows
-        env:
+      - env:
           # Must use a personal access token w/ workflow permissions. The GH
           # workflow token doesn't have permission to trigger other workflows
           # regardless of permissions granted.
