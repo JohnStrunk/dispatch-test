@@ -1,0 +1,30 @@
+---
+# yamllint disable rule:line-length
+
+name: operator
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches: ["master", "other-*"]
+    tags: ["*"]
+  pull_request:
+    branches: ["master", "other-*"]
+  workflow_dispatch:
+
+jobs:
+  the-job:
+    name: TheJob
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
+
+      - name: See where we are
+        run: |
+          date
+          git log --pretty="format:%h %G?%d %s" -1
+          echo ""
+          echo REF: ${{ github.ref }}
+          echo REF_NAME: ${{ github.ref_name }}
+          echo REF_TYPE: ${{ github.ref_type }}
+          echo "File contents:"; cat thefile
