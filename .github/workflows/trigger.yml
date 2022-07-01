@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
+      - name: Checkout source
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
+
       - env:
           # Must use a personal access token w/ workflow permissions. The GH
           # workflow token doesn't have permission to trigger other workflows
