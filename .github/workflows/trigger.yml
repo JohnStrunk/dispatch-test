@@ -3,6 +3,7 @@
 
 name: trigger
 on:  # yamllint disable-line rule:truthy
+  # Allow this workflow to be dispatched manually (for testing)
   workflow_dispatch:
 
 jobs:
@@ -27,6 +28,15 @@ jobs:
 
       - name: Trigger other workflows
         env:
+          # Must use a personal access token w/ workflow permissions. The GH
+          # workflow token doesn't have permission to trigger other workflows
+          # regardless of permissions granted.
           GITHUB_TOKEN: ${{ secrets.PAT_WORKFLOW }}
         run: |
-          gh workflow run --ref master main
+          BRANCHES=(
+            "master"
+            "b1"
+          )
+          for branch in "${BRANCHES[@]}"; do
+              gh workflow run --ref $branch main
+          done
