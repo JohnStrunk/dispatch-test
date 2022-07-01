@@ -36,5 +36,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT_WORKFLOW }}
         run: |
           gh workflow run --ref "master" "main.yml"
-          gh workflow run --ref "b1" "main.yml"
+          gh workflow run --ref "b1" "main2.yml"
           gh workflow run --ref "t1" "main.yml"
