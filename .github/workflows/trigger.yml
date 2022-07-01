@@ -38,5 +38,6 @@ jobs:
             "b1"
           )
           for branch in "${BRANCHES[@]}"; do
+              echo "Triggering workflow for: $branch"
               gh workflow run --ref $branch main
           done
