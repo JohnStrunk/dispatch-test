@@ -1,7 +1,7 @@
 ---
 # yamllint disable rule:line-length
 
-name: main
+name: main file
 on:  # yamllint disable-line rule:truthy
   push:
     branches: ["master", "other-*"]
