@@ -32,6 +32,10 @@ jobs:
           echo EVENT_NAME: ${{ github.event_name }}
           echo "File contents:"; cat thefile
 
+      - name: See where we are
+        run: |
+          echo "I'm the b1 file"
+
       - name: Conditionals
         if: >
           (github.event_name == 'push' || github.event_name == 'schedule') &&
