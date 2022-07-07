@@ -68,7 +68,7 @@ jobs:
         uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
 
       - name: container
-        uses: ./.github/workflows/registry-push
+        uses: ./.github/workflows/registry-push.yml
         with:
           artifact-name: bb-container
           image-name: quay.io/johnstrunk/busybox
