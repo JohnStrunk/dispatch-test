@@ -62,6 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: No-op
+        run: /bin/true
 
   push-images:
     name: Push container images to registry
