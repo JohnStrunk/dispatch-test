@@ -35,12 +35,6 @@ jobs:
   push-to-registry:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug
-        run: |
-          echo "event: ${{ github.event }}"
-          echo "repo object: ${{ github.event.repository }}"
-          echo "default: ${{ github.event.repository.default_branch }}"
-
       - name: Load container artifact
         uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741
         with:
@@ -62,13 +56,13 @@ jobs:
 
       # If we're on the default branch, we push to :latest
       - name: Push to registry (as :latest)
-        if: github.ref == github.event.repository.default_branch
+        if: github.ref_name == github.event.repository.default_branch
         run: |
           docker push "${{ inputs.image-name }}"
 
       # if we're on a tag or non-default branch, push to that ref name
       - name: Push to registry (tag)
-        if: github.ref != github.event.repository.default_branch
+        if: github.ref_name != github.event.repository.default_branch
         run: |
           TAG="${{ github.ref_name }}"
           echo "Pushing to $TAG"
