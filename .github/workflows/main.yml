@@ -61,16 +61,9 @@ jobs:
       (github.ref == 'refs/heads/master' ||
        startsWith(github.ref, 'refs/heads/other-') ||
        startsWith(github.ref, 'refs/tags/v'))
-    runs-on: ubuntu-20.04
-
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
-
-      - name: container
-        uses: ./.github/workflows/registry-push.yml
-        with:
-          artifact-name: bb-container
-          image-name: quay.io/johnstrunk/busybox
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+    uses: ./.github/workflows/registry-push.yml
+    with:
+      artifact-name: bb-container
+      image-name: quay.io/johnstrunk/busybox
+      registry-username: ${{ secrets.REGISTRY_USERNAME }}
+      registry-password: ${{ secrets.REGISTRY_PASSWORD }}
