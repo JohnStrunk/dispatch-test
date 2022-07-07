@@ -53,14 +53,17 @@ jobs:
           name: bb-container
           path: /tmp/image.tar
 
-  push-images:
-    name: Push container images to registry
-    needs: the-job
+  gate:
     if: >
       (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
       (github.ref == 'refs/heads/master' ||
        startsWith(github.ref, 'refs/heads/other-') ||
        startsWith(github.ref, 'refs/tags/v'))
+    runs-on: ubuntu-latest
+
+  push-images:
+    name: Push container images to registry
+    needs: gate
     uses: ./.github/workflows/registry-push.yml
     with:
       artifact-name: bb-container
