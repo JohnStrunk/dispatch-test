@@ -39,3 +39,35 @@ jobs:
            startsWith(github.ref, 'refs/heads/other-') ||
            startsWith(github.ref, 'refs/tags/v'))
         run: echo "And I ran... I ran so far away... I just ran... I ran all night and day..."
+
+      - run: |
+          docker pull busybox
+          docker tag busybox quay.io/johnstrunk/busybox
+
+      - name: Export container image
+        run: docker save -o /tmp/image.tar quay.io/johnstrunk/busybox
+
+      - name: Save container as artifact
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8
+        with:
+          name: bb-container
+          path: /tmp/image.tar
+
+  push-images:
+    name: Push container images to registry
+    needs: the-job
+    if: >
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+      (github.ref == 'refs/heads/master' ||
+       startsWith(github.ref, 'refs/heads/other-') ||
+       startsWith(github.ref, 'refs/tags/v'))
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: container
+        uses: ./.github/workflows/registry-push
+        with:
+          artifact-name: bb-container
+          image-name: quay.io/johnstrunk/busybox
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
