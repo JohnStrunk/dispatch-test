@@ -4,10 +4,10 @@
 name: main file
 on:  # yamllint disable-line rule:truthy
   push:
-    branches: ["master", "other-*"]
+    branches: ["master", "other-*", "nopush"]
     tags: ["*"]
   pull_request:
-    branches: ["master", "other-*"]
+    branches: ["master", "other-*", "nopush"]
   # Since this workflow must be able to be triggered manually so that it can be
   # started from another workflow
   workflow_dispatch:
